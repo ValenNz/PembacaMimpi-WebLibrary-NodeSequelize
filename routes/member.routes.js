@@ -1,30 +1,26 @@
-/** load library express */
+/* File untuk membaut router (bndpoint) */
+/* Import library express */
 const express = require(`express`)
 
-/** initiate object that instance of express */
+/* Inisialisasi server express */
 const app = express()
 
-/** allow to read 'request' with json type */
+/* Membaca request dengan JSON */
 app.use(express.json())
 
-/** load member's controller */
+/* import Controller (function) */
 const memberController = require(`../controllers/member.controller`)
-/** create route to get data with method "GET" */
-app.get("/", memberController.getAllMember)
-/** create route to add new member using method "POST" */
-app.post("/", memberController.addMember)
-/** create route to find member
- * using method "POST" and path "find" */
-app.post("/find", memberController.findMember)
-/** create route to update member 
- * using method "PUT" and define parameter for "id" */
-app.put("/:id", memberController.updateMember)
-/** create route to delete member 
- * using method "DELETE" and define parameter for "id" */
-app.delete("/:id", memberController.deleteMember)
 
-/** export app in order to load in another file */
-module.exports = app
+/* Endpoint Member */
+/* server.method("path", namaConstroller.namaMethod) */
+app.get("/", memberController.getAllMember)         // get : Mendapatkan data
+app.post("/", memberController.addMember)           // post : Menambahkan data
+app.post("/find", memberController.findMember)      // post : Menangkap detail dengan path find
+app.put("/:id", memberController.updateMember)      // put : Menangkap data dengan path id
+app.delete("/:id", memberController.deleteMember)   // delete : Menghapus data dengan path id
+
+/* Export file */
+module.exports = app // melakukan export file supaya dapat di acc di file lain
 
 
 

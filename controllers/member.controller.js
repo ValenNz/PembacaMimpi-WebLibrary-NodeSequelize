@@ -8,8 +8,11 @@ const Op = require(`sequelize`).Op
 
 
 /* Function READ */
-exports.getAllMember = async (request, response) => {
-    /*  */
+exports.getAllMember = async (request, response) => { // exports arrow fn 
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+     */
     /** call findAll() to get all data */
     let members = await memberModel.findAll() // use findAll() : Memangil semua data
     /* Mengembalikan response */
@@ -20,51 +23,62 @@ exports.getAllMember = async (request, response) => {
     })
 }
 
-/** create function for filter */
-exports.findMember = async (request, response) => {
-    /** define keyword to find data */
-    let keyword = request.body.keyword
+/* Function READ Filter */
+exports.findMember = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    /* Definiskan keyword */
+    let keyword = request.body.keyword // Mendefinisikan dari req body postman (menangkap req)
 
-    /** call findAll() within where clause and operation 
-     * to find data based on keyword  */
-    let members = await memberModel.findAll({
-        where: {
-            [Op.or]: [
-                { name: { [Op.substring]: keyword } },
-                { gender: { [Op.substring]: keyword } },
-                { address: { [Op.substring]: keyword } }
+    /* Membuat definisi untuk memanggil sesuasi kondisi */
+    let members = await memberModel.findAll({ // Temukan semua
+        where: {    // Ketika ditemukan semua
+            [Op.or]: [  // atau 
+                { name: { [Op.substring]: keyword } }, // cari nama berdasarkan keyword (req)
+                { gender: { [Op.substring]: keyword } }, // cari gender berdasarkan keyword (req)
+                { address: { [Op.substring]: keyword } } // cari address berdasarkan keyword (req)
             ]
         }
     })
+    /* Mengirim Response */
     return response.json({
         success: true,
-        data: members,
+        data: members,  // Tampilkan data member
         message: `All Members have been loaded`
     })
 }
 
-/** create function for add new member */
-exports.addMember = (request, response) => {
-    /** prepare data from request */
-    let newMember = {
+/* Function CREATE */
+exports.addMember = (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    
+    /* Mendefinisikan data dari request (menangkap) */
+    let newMember = { 
         name: request.body.name,
         address: request.body.address,
         gender: request.body.gender,
         contact: request.body.contact
     }
 
-    /** execute inserting data to member's table */
-    memberModel.create(newMember) // 
-        .then(result => {
-            /** if insert's process success */
+    /* Menambahkan data baru ke tabel */
+    memberModel.create(newMember) 
+        /* Jika berhasil */
+        .then(result => {   
+            /* Kirim response berhasil */
             return response.json({
                 success: true,
                 data: result,
                 message: `New member has been inserted`
             })
         })
+        /* Jika Error */
         .catch(error => {
-            /** if insert's process fail */
+            /* Tampilkan error */
             return response.json({
                 success: false,
                 message: error.message
@@ -72,10 +86,14 @@ exports.addMember = (request, response) => {
         })
 }
 
-
-/** create function for update member */
-exports.updateMember = (request, response) => {
-    /** prepare data that has been changed */
+/* Function UPDATE */
+exports.updateMember = (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    
+    /* Mendefinisikan data dari request (menangkap) */
     let dataMember = {
         name: request.body.name,
         address: request.body.address,
@@ -83,20 +101,23 @@ exports.updateMember = (request, response) => {
         contact: request.body.contact
     }
 
-    /** define id member that will be update */
+    /* Mendefinisikan data berdasarkan id yang dimasukan */
     let idMember = request.params.id
 
-    /** execute update data based on defined id member */
-    memberModel.update(dataMember, { where: { id: idMember } })
+    /* Melakukan update data berdasarkan Id */
+    memberModel.update(dataMember, { where: { id: idMember } }) // update data ketika id yang ditangkap = idMember
+
+        /* Jika berhasil */
         .then(result => {
-            /** if update's process success */
+            /* Tampilkan response success */
             return response.json({
                 success: true,
                 message: `Data member has been updated`
             })
         })
+        /* Jika gagal */
         .catch(error => {
-            /** if update's process fail */
+            /* Tanpilkan pesan error */
             return response.json({
                 success: false,
                 message: error.message
@@ -105,22 +126,29 @@ exports.updateMember = (request, response) => {
 }
 
 
-/** create function for delete data  */
-exports.deleteMember = (request, response) => {
-    /** define id member that will be update */
+/** Function Deete  */
+exports.deleteMember = (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    
+    /* Mendefinisikan data berdasarkan id dari param (menangkap) */
     let idMember = request.params.id
 
-    /** execute delete data based on defined id member */
-    memberModel.destroy({ where: { id: idMember } })
+    /* Melakukan delete data berdasarkan id yang ditangkap */
+    memberModel.destroy({ where: { id: idMember } }) // Hapus data ketika id = idMember
+        /* Jika berhasil */
         .then(result => {
-            /** if update's process success */
+            /* Tamnpilkan response success */
             return response.json({
                 success: true,
                 message: `Data member has been deleted`
             })
         })
+        /* Jika Error */
         .catch(error => {
-            /** if update's process fail */
+            /* Tanpilkan Pesan error */
             return response.json({
                 success: false,
                 message: error.message

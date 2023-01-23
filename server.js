@@ -1,25 +1,28 @@
-/** load library express */
+/* File untuk menjalankan server */
+
+/* Imoport library express */
 const express = require(`express`)
 
-/** create object that instances of express */
+/* Membuat object unutk server */
 const app = express()
 
-/** define port of server */
+/* Mendefinisikan port di 8000 */
 const PORT = 8000
 
-/** load library cors */
+/* Import libary cors */
 const cors = require(`cors`)
 
-/** open CORS policy */
-app.use(cors())
+/** open CORS policy */ 
+app.use(cors()) // Menghubungkan broweser ke web-service
 
-/** define all routes */
+/* Mengimport semua router */
 const memberRoute = require(`./routes/member.routes`)
+const adminRoute = require('./routes/admin.routers')    
 
-/** define prefix for each route */
-app.use(`/member`, memberRoute)
-
-/** run server based on defined port */
+/* Mendefinisikan path sebelum router */
+app.use(`/member`, memberRoute) // roueter member -> localhost:8000/member
+app.use('/admin', adminRoute)
+/* Menjalankan server di port 8000 */
 app.listen(PORT, () => {
-    console.log(`Server of School's Library runs on port ${PORT}`)
+    console.log(`Server pembaca mimpi berjalan di port ${PORT}`)
 })
