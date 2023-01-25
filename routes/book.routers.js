@@ -1,30 +1,23 @@
-/** load library express */
+/* File untuk membaut router (bndpoint) */
+/* Import library express */
 const express = require(`express`)
 
-/** initiate object that instance of express */
+/* Inisialisasi server express */
 const app = express()
 
-/** allow to read 'request' with json type */
+/* Membaca request dengan JSON */
 app.use(express.json())
 
-/** load book's controller */
+/* import Controller (function) */
 const bookController = require(`../controllers/book.controller`)
 
-/** create route to get data with method "GET" */
-app.get("/", bookController.getAllBooks)
-/** create route to find book
- * using method "POST" and path "find" */
-app.post("/find", bookController.findBook)
-/** create route to find book
- * using method "POST" and path "find" */
-app.post("/find", bookController.findBook)
-/** create route to update book 
- * using method "PUT"
- * and define parameter for "id" */
-app.put("/:id", bookController.updateBook)
-/** create route to delete book 
- * using method "DELETE" and define parameter for "id" */
-app.delete("/:id", bookController.deleteBook)
+/* Endpoint Book */
+/* server.method("path", namaConstroller.namaMethod) */
+app.post("/", bookController.addBook)           // post : Menambahkan data
+app.get("/", bookController.getAllBook)         // get : Mendapatkan data   
+app.post("/find", bookController.findBook)      // post : Menangkap detail dengan path find
+app.put("/:id", bookController.updateBook)      // put : Menangkap data dengan path id
+app.delete("/:id", bookController.deleteBook)   // delete : Menghapus data dengan path id
 
 /** export app in order to load in another file */
 module.exports = app

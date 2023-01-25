@@ -12,8 +12,8 @@ app.use(express.json())
 const adminController = require(`../controllers/admin.controller`)
 
 /* Endpoint Admin */
-app.post("/", adminController.addAdmin)           // post : Menambahkan data
 /* server.method("path", namaConstroller.namaMethod) */
+app.post("/", adminController.addAdmin)           // post : Menambahkan data
 app.get("/", adminController.getAllAdmin)         // get : Mendapatkan data   
 app.post("/find", adminController.findAdmin)      // post : Menangkap detail dengan path find
 app.put("/:id", adminController.updateAdmin)      // put : Menangkap data dengan path id

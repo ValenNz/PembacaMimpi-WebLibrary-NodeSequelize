@@ -1,11 +1,18 @@
-'use strict';
-/** @type {import('sequelize-cli').Migration} */
+/* File untuk mengatur struktur database seperti table dan relasi */
+'use strict'; // menunjukkan bahwa kode harus dijalankan dalam "mode ketat". misalnya menggunakan variabel yang tidak dideklarasikan
+
+/* Import Modul */
+/** @type {import('sequelize-cli').Migration} */ // Import module seuileze
+
+/* Membuat struktur and relasi */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('books', {
+  /* Memproses data secara bersamaan */
+  async up(queryInterface, Sequelize) { // Menunggu hingga telah dirender semua
+    /* Melakukan render (tunggu) jika promise telah tercukupi maka jhalankan*/
+    await queryInterface.createTable('books', { // Create Table
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        allowNull: false, // kolom id tidak boleh dikosongkan datanya
+        autoIncrement: true, 
         primaryKey: true,
         type: Sequelize.INTEGER
       },

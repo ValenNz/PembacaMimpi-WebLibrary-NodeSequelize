@@ -7,9 +7,7 @@ const adminModel = require('../models/index').admin // melakukan inisialisasi te
 const Op = require(`sequelize`).Op
 
 const md5 = require(`md5`) // hashing untuk menyembunyikan informasi yang sebenarnya. Hashing dilakukan menggunakan library md5
-
-let password = md5(`password`)
-
+    
 /* Function CREATE */
 exports.addAdmin = (req, res) => {
     let newAdmin = {
@@ -17,7 +15,7 @@ exports.addAdmin = (req, res) => {
         contact: req.body.contact,
         address: req.body.address,
         username: req.body.username,
-        password: req.body.password
+        password: md5(req.body.password)
     }
 
     adminModel.create(newAdmin)

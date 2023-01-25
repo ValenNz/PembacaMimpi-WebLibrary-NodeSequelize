@@ -3,7 +3,7 @@
 /* Imoport library express */
 const express = require(`express`)
 
-/* Membuat object unutk server */
+/* Membuat object ~unutk server */
 const app = express()
 
 /* Mendefinisikan port di 8000 */
@@ -20,11 +20,13 @@ app.use(express.static(__dirname))
 const memberRoute = require(`./routes/member.routers`)
 const adminRoute = require('./routes/admin.routers')    
 const bookRoute = require(`./routes/book.routers`)
+const borrowRoute = require(`./routes/borrow.routers`)
 
 /* Mendefinisikan path sebelum router */
 app.use(`/member`, memberRoute) // roueter member -> localhost:8000/member
 app.use('/admin', adminRoute)
 app.use(`/book`, bookRoute)
+app.use(`/borrow`, borrowRoute)
 
 /* Menjalankan server di port 8000 */
 app.listen(PORT, () => {

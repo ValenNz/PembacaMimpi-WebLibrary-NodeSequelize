@@ -6,6 +6,60 @@ const memberModel = require(`../models/index`).member // melakukan inisialisasi 
 /* Import method operation sequelize  */
 const Op = require(`sequelize`).Op
 
+/** load library 'path' and 'filestream' */
+const path = require(`path`)
+const fs = require(`fs`)
+
+/* Definisi letak penyimpanan foto dengan req (foto) dan hanya satu foto*/
+const upload = require(`./upload-foto`).single(`foto`)
+
+/* Function CREATE */
+exports.addMember = (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+        upload(request, response, async error => {
+        if (error) {
+            return response.json({ message: error })
+        }
+
+        /** check if file is empty */
+        if (!request.file) {
+            return response.json({ message: `Nothing to Upload` })
+        }
+
+    /* Mendefinisikan data dari request (menangkap) */
+    let newMember = { 
+        name: request.body.name,
+        address: request.body.address,
+        gender: request.body.gender,
+        contact: request.body.contact,
+        foto: request.file.filename
+    }
+
+    /* Menambahkan data baru ke tabel */
+    memberModel.create(newMember) 
+        /* Jika berhasil */
+        .then(result => {   
+            /* Kirim response berhasil */
+            return response.json({
+                success: true,
+                data: result,
+                message: `New member has been inserted`
+            })
+        })
+        /* Jika Error */
+        .catch(error => {
+            /* Tampilkan error */
+            return response.json({
+                success: false,
+                message: error.message
+            })
+        })
+
+    })
+}
 
 /* Function READ */
 exports.getAllMember = async (request, response) => { // exports arrow fn 
@@ -50,42 +104,6 @@ exports.findMember = async (request, response) => { // exports arrow fn
     })
 }
 
-/* Function CREATE */
-exports.addMember = (request, response) => { // exports arrow fn
-    /*
-        req  : var yang berisi data request
-        res  : var yang berisi data response dari end-point 
-    */
-    
-    /* Mendefinisikan data dari request (menangkap) */
-    let newMember = { 
-        name: request.body.name,
-        address: request.body.address,
-        gender: request.body.gender,
-        contact: request.body.contact
-    }
-
-    /* Menambahkan data baru ke tabel */
-    memberModel.create(newMember) 
-        /* Jika berhasil */
-        .then(result => {   
-            /* Kirim response berhasil */
-            return response.json({
-                success: true,
-                data: result,
-                message: `New member has been inserted`
-            })
-        })
-        /* Jika Error */
-        .catch(error => {
-            /* Tampilkan error */
-            return response.json({
-                success: false,
-                message: error.message
-            })
-        })
-}
-
 /* Function UPDATE */
 exports.updateMember = (request, response) => { // exports arrow fn
     /*
@@ -126,7 +144,7 @@ exports.updateMember = (request, response) => { // exports arrow fn
 }
 
 
-/** Function Deete  */
+/** Function Delete  */
 exports.deleteMember = (request, response) => { // exports arrow fn
     /*
         req  : var yang berisi data request

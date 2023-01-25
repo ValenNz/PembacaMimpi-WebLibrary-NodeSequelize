@@ -13,11 +13,11 @@ const memberController = require(`../controllers/member.controller`)
 
 /* Endpoint Member */
 /* server.method("path", namaConstroller.namaMethod) */
-app.get("/", memberController.getAllMember)         // get : Mendapatkan data
 app.post("/", memberController.addMember)           // post : Menambahkan data
-app.post("/find", memberController.findMember)      // post : Menangkap detail dengan path find
-app.put("/:id", memberController.updateMember)      // put : Menangkap data dengan path id
-app.delete("/:id", memberController.deleteMember)   // delete : Menghapus data dengan path id
+// app.get("/", memberController.getAllMember)         // get : Mendapatkan data
+// app.post("/find", memberController.findMember)      // post : Menangkap detail dengan path find
+// app.put("/:id", memberController.updateMember)      // put : Menangkap data dengan path id
+// app.delete("/:id", memberController.deleteMember)   // delete : Menghapus data dengan path id
 
 /* Export file */
 module.exports = app // melakukan export file supaya dapat di acc di file lain

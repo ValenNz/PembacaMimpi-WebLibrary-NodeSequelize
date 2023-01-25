@@ -15,42 +15,6 @@ const fs = require(`fs`)
 const upload = require(`./upload-cover`).single(`cover`)
 
 
-/** create function to read all data */
-exports.getAllBooks = async (request, response) => {
-    /** call findAll() to get all data */
-    let books = await bookModel.findAll()
-    return response.json({
-        success: true,
-        data: books,
-        message: `All Books have been loaded`
-    })
-}
-
-/** create function for filter */
-exports.findBook = async (request, response) => {
-    /** define keyword to find data */
-    let keyword = request.body.keyword
-
-    /** call findAll() within where clause and operation 
-     * to find data based on keyword  */
-    let books = await bookModel.findAll({
-        where: {
-            [Op.or]: [
-                { isbn: { [Op.substring]: keyword } },
-                { title: { [Op.substring]: keyword } },
-                { author: { [Op.substring]: keyword } },
-                { category: { [Op.substring]: keyword } },
-                { publisher: { [Op.substring]: keyword } }
-            ]
-        }
-    })
-    return response.json({
-        success: true,
-        data: books,
-        message: `All Books have been loaded`
-    })
-}
-
 /** create function to add new book  */
 exports.addBook = (request, response) => {
     /** run function upload */
@@ -96,6 +60,42 @@ exports.addBook = (request, response) => {
 
     })
 
+}
+
+/** create function to read all data */
+exports.getAllBook = async (request, response) => {
+    /** call findAll() to get all data */
+    let books = await bookModel.findAll()
+    return response.json({
+        success: true,
+        data: books,
+        message: `All Books have been loaded`
+    })
+}
+
+/** create function for filter */
+exports.findBook = async (request, response) => {
+    /** define keyword to find data */
+    let keyword = request.body.keyword
+
+    /** call findAll() within where clause and operation 
+     * to find data based on keyword  */
+    let books = await bookModel.findAll({
+        where: {
+            [Op.or]: [
+                { isbn: { [Op.substring]: keyword } },
+                { title: { [Op.substring]: keyword } },
+                { author: { [Op.substring]: keyword } },
+                { category: { [Op.substring]: keyword } },
+                { publisher: { [Op.substring]: keyword } }
+            ]
+        }
+    })
+    return response.json({
+        success: true,
+        data: books,
+        message: `All Books have been loaded`
+    })
 }
 
 /** create function to update book */
