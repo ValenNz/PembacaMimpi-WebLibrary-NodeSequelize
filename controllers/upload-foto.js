@@ -39,4 +39,5 @@ const upload = multer({
         cb(null, true) /** accept upload */
     }
 })
+
 module.exports = upload

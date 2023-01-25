@@ -117,6 +117,49 @@ exports.updateBorrowing = async (request, response) => {
         })
 }
 
+/** create function for get all borrowing data */
+exports.getBorrow = async (request, response) => {
+    let data = await borrowModel.findAll(
+        {
+            include: [
+                `member`, `admin`,
+                {
+                    model: detailsOfBorrowModel,
+                    as: `details_of_borrow`,
+                    include: ["book"]
+                }
+            ]
+        }
+    )
+
+    return response.json({
+        success: true,
+        data: data,
+        message: `All borrowing book have been loaded`
+    })
+}
+
+exports.findBorrow = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    /* Definiskan keyword */
+
+    /* Membuat definisi untuk memanggil sesuasi kondisi */
+    let members = await borrowModel.findAll({ // Temukan semua
+        where: {  
+            memberID : request.params.id
+           }
+    })
+    /* Mengirim Response */
+    return response.json({
+        success: true,
+        data: members,  // Tampilkan data member
+        message: `All Members have been loaded`
+    })
+}
+
 /** create function for delete book borrowing's data */
 exports.deleteBorrowing = async (request, response) => {
     /** prepare borrowID that as paramter to delete */
@@ -183,25 +226,7 @@ exports.returnBook = async (request, response) => {
         })
 }
 
-/** create function for get all borrowing data */
-exports.getBorrow = async (request, response) => {
-    let data = await borrowModel.findAll(
-        {
-            include: [
-                `member`, `admin`,
-                {
-                    model: detailsOfBorrowModel,
-                    as: `details_of_borrow`,
-                    include: ["book"]
-                }
-            ]
-        }
-    )
 
-    return response.json({
-        success: true,
-        data: data,
-        message: `All borrowing book have been loaded`
-    })
-}
+
+
 
