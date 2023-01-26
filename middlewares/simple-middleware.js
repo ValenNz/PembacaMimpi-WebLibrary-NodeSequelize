@@ -6,4 +6,6 @@ const midOne = async (request, response, next) => {
 }
 
 /** export function to another file */
-module.exports = {midOne}
+module.exports = {
+    midOne
+}

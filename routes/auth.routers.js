@@ -15,4 +15,3 @@ app.post(`/`, authenticate)
 
 /** export app in order to load in another file */
 module.exports = app
-

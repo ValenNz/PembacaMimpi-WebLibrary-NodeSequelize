@@ -13,6 +13,7 @@ const bookController = require(`../controllers/book.controller`)
 /** load function from simple-middleware */
 const { midOne } = require(`../middlewares/simple-middleware`)
 
+
 /* Endpoint Book */
 /* server.method("path", namaConstroller.namaMethod) */
 app.post("/",[midOne], bookController.addBook)           // post : Menambahkan data

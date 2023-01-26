@@ -93,6 +93,3 @@ const authorize = (request, response, next) => {
 /** export function to another file */
 module.exports = { authenticate, authorize }
 
-
-
-

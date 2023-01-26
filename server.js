@@ -21,14 +21,14 @@ const memberRoute = require(`./routes/member.routers`)
 const adminRoute = require('./routes/admin.routers')    
 const bookRoute = require(`./routes/book.routers`)
 const borrowRoute = require(`./routes/borrow.routers`)
-const authRoute = require(`./routes/auth.routers`)
+const auth = require(`./routes/auth.routers`)
 
 /* Mendefinisikan path sebelum router */
 app.use(`/member`, memberRoute) // roueter member -> localhost:8000/member
 app.use('/admin', adminRoute)
 app.use(`/book`, bookRoute)
 app.use(`/borrow`, borrowRoute)
-app.use(`/auth`, authRoute)
+app.use(`/auth`, auth)
 
 /* Menjalankan server di port 8000 */
 app.listen(PORT, () => {

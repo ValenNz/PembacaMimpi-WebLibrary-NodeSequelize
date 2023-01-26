@@ -38,4 +38,3 @@ const validateMember = (request, response, next) => {
 }
 
 module.exports = { validateMember }
-
