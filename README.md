@@ -1,5 +1,5 @@
 
-		Pengenalan Folder Pada Project
+		                    Pengenalan Folder Pada Project
 -	Server.js merupakan file utama yang dieksekusi saat proyek aplikasi akan dijalankan.
 -	Routes merupakan kumpulan jalur endpoint yang disediakan di dalam proyek.
 -	Controllers merupakan kumpulan logic atau proses mengolah request yang diterima dan memberikan response.
@@ -7,16 +7,21 @@
 -	Migration merupkan kumpulan proses pembuatan struktur database meliputi struktur table dan relasinya.
 -	Middleware merupakan kumpulan proses yang menjembatani antara route dan controller. Proses middleware ini bersifat opsional (bisa didefinisikan atau tidak)
 
-		Pengenalan Sequelize
+		                         Pengenalan Sequelize
 -	Sequelize merupakan sebuah library yang digunakan untuk melakukan interaksi dengan database.
 -	Sequelize berbasis ORM (Object Relational Maping) dan berbasis promise, sehingga proses kueri ke database berorientasi pada object.
 -	Sequelize sudah mendukung untuk MySQL, PostgreSQL, MariaDB, SQLite, dan MSSQL.
 
-		Create Project SEQUELIZE
+		                        Create Project SEQUELIZE
+
 1. make folder
+
 2. Inisialisasi package.json	: npm init -y	
+
 3. menginstal nodemon (menjalankan server otomatis)	: npm installl nodemon 
+
 4. install library	: npm install express cors mysql2 sequelize md5
+
 5. Inisialisasi sequelize in project	: npx sequelize-cli init	
 	Menghasilkan 
 		-	Folder config, berisi file konfigurasi untuk menunjukkan database mana yang akan terhubung pada project tersebut.
@@ -24,10 +29,11 @@
 		-	Folder migrations, berisi file migration yang digunakan untuk membuat struktur database meliputi pembuatan atau penghapusan tabel, relasi
 			antar tabel, dan pengubahan struktur database lainnya.
 		-	Folder seeders, berisi file seeder yang digunakan untuk pembenihan data pada database (inisiasi data awal).
-6. Pada folder config -> config.json hubungkan ke database pada bagian development -> "database" : "nama_database"
 
+6. Pada folder config -> config.json hubungkan ke database pada bagian development -> "database" : "nama_database"
 	-	Migration merupakan proses untuk mengatur struktur database seperti table dan relasi
 	-	Model merupakan proses untuk mengatur data yang tersimpan pada database.
+
 7. Buat migration : npx sequelize-cli model:generate --name nama tabel --attributes field:typeData,field2:typeData
 	Isi :
 		function up() : * Pembuat tabel. 
@@ -36,6 +42,7 @@
 					 * Akan dijalankan dengan perintah :  npx sequelize-cli db:migrate
 		Function down() : * Menhancurkan table
 					   * Akan dijalankan dengan perintah : npx sequelize-cli db:migrate:undo:all
+                       
 8. Hubungkan relation nya 
 	Akan dijalankan dengan perintah : npx sequelize-cli db:migrate
 
@@ -65,5 +72,7 @@
 			berupa object yang berisi dua key yaitu key “count” bernilai jumlah data yang didapatkan dan key “rows” berisi array object data yang didapatkan.
 	- Filtering Data
 		-	Inisialisasi const op = require('sequelize').Op
+
 12. Buatlah router untuk menjalankan function CRUD
+
 13. Buatlah server untuk menjalankan 
