@@ -21,7 +21,6 @@ exports.addBook = (request, response) => { // exports arrow fn
         res  : var yang berisi data response dari end-point 
     */
 
-    /* Mendefinisikan data dari request (menangkap) */
     upload(request, response, async error => {
         /** check if there are errorwhen upload */
         if (error) {
@@ -33,7 +32,7 @@ exports.addBook = (request, response) => { // exports arrow fn
             return response.json({ message: `Nothing to Upload` })
         }
 
-        /** prepare data from request */
+    /* Mendefinisikan data dari request (menangkap) */
         let newBook = {
             isbn: request.body.isbn,
             title: request.body.title,
