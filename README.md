@@ -53,17 +53,17 @@
 
 
 11. Buatlah CRUD di folder controller
-	a. Lakukan inisialisasi di folder models : const nama_tabel = require(tempat folder model).nama_tabel
-	b. Fungsi create() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
-	c. Fungsi update() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function.
-	d. Fungsi destroy() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
-	e. Read data
+	- Lakukan inisialisasi di folder models : const nama_tabel = require(tempat folder model).nama_tabel
+	- Fungsi create() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
+	- Fungsi update() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function.
+	- Fungsi destroy() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
+	- Read data
 		-	findAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki. Hasil perintah ini berupa array object dari data yang didapatkan.
 		-	findByPk() digunakan untuk mendapatkan data berdasarkan nilai data primary key yang dikehendaki. Hasil perintah ini berupa object dari data yang didapatkan
 		-	findOne() digunakan untuk mendapatkan data berdasarkan parameter pencarian yang dikehendaki (penggunaan where clause). Hasil perintah ini berupa object
 		-	findAndCountAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki beserta jumlah data yang didapatkan. Hasil perintah ini
 			berupa object yang berisi dua key yaitu key “count” bernilai jumlah data yang didapatkan dan key “rows” berisi array object data yang didapatkan.
-	f. Filtering Data
+	- Filtering Data
 		-	Inisialisasi const op = require('sequelize').Op
 12. Buatlah router untuk menjalankan function CRUD
 13. Buatlah server untuk menjalankan 
