@@ -1,23 +1,27 @@
-/** load model for table 'books' */
-const bookModel = require(`../models/index`).book
+/* File untuk melakukan function CRUD */ 
 
-/** load Operation from Sequelize */
+/* Import Model */
+const bookModel = require(`../models/index`).book // melakukan inisialisasi terhadap index supaya terhubung ke db
+
+/* Import method operation sequelize  */
 const Op = require(`sequelize`).Op
 
-/** load library 'path' and 'filestream' */
-const path = require(`path`)
-const fs = require(`fs`)
+/* Import library 'path' and 'filestream' */
+const path = require(`path`) // Peletakan file
+const fs = require(`fs`)     // Pengelolaan file
 
-/** load function from `upload-cover`
- * single(`cover`) means just upload one file
- * with request name `cover`
- */
+/* Definisi letak penyimpanan foto dengan req (foto) dan hanya satu foto*/
 const upload = require(`./upload-cover`).single(`cover`)
 
 
-/** create function to add new book  */
-exports.addBook = (request, response) => {
-    /** run function upload */
+/* Function CREATE */
+exports.addBook = (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+
+    /* Mendefinisikan data dari request (menangkap) */
     upload(request, response, async error => {
         /** check if there are errorwhen upload */
         if (error) {

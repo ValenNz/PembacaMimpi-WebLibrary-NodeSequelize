@@ -19,12 +19,14 @@ exports.addMember = (request, response) => { // exports arrow fn
         req  : var yang berisi data request
         res  : var yang berisi data response dari end-point 
     */
+        /* Upload Foto Profile */
         upload(request, response, async error => {
+            /* Jika error */
         if (error) {
             return response.json({ message: error })
         }
 
-        /** check if file is empty */
+        /* Check jika file kosong*/
         if (!request.file) {
             return response.json({ message: `Nothing to Upload` })
         }
@@ -142,7 +144,6 @@ exports.updateMember = (request, response) => { // exports arrow fn
             })
         })
 }
-
 
 /** Function Delete  */
 exports.deleteMember = (request, response) => { // exports arrow fn

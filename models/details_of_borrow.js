@@ -3,6 +3,8 @@
 
 /* Memanggil Modul */
 const {Model} = require('sequelize'); // Memanggil modul sequelize untuk menggunakan Model 
+
+/* Membuat Data  dengan Arror Fn */
 module.exports = (sequelize, DataTypes) => { // exports : supaya dapat digunakan di file lain dengan param sequelize dan type data
   /* Membuat Class */
   class details_of_borrow extends Model {

@@ -6,7 +6,7 @@ const path = require(`path`)
 const storage = multer.diskStorage({
     /** define storage folder */
     destination: (req, file, cb) => {
-        cb(null, `./cover`)
+        cb(null, `./images/cover`)
     },
 
     /** define filename for upload file */
@@ -39,4 +39,5 @@ const upload = multer({
         cb(null, true) /** accept upload */
     }
 })
+
 module.exports = upload
