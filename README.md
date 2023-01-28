@@ -117,9 +117,10 @@
 
 		-	findByPk() digunakan untuk mendapatkan data berdasarkan nilai data primary key yang dikehendaki. Hasil perintah ini berupa object dari data yang didapatkan
 			<p>
-				await member.findPk(29)
+				
 
 				let sql : SELECT * FROM 'members' WHERE id = 29
+				await member.findPk(29)	
 			</p>
 
 		-	findOne() digunakan untuk mendapatkan data berdasarkan parameter pencarian yang dikehendaki (penggunaan where clause). Hasil perintah ini berupa object
