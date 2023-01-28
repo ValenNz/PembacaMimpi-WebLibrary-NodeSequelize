@@ -16,7 +16,7 @@
 
 1. make folder
 
-2. Inisialisasi package.json	:  <p> npm init -y	</p>
+2. Inisialisasi package.json	: npm init -y	
 
 3. menginstal nodemon (menjalankan server otomatis)	: npm installl nodemon 
 
@@ -71,15 +71,50 @@
 			address: "Mekkah"
 		})
 
-		LIKE let sql = INSERT INTO 'table_name' (field1,field2) VALUE ('value1', 'value2')
+		let sql = INSERT INTO 'members' (name,gender,contact,address) VALUE ('dummy', 'Male', '096357', 'Mekkah')
 	</p>
 		
 	- Fungsi update() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function.
+	<p>
+		await member.update({ address : "john" }, {
+			where: {
+				id : 1
+			}
+		})
 
+		let sql : UPDATE 'members' SET address = 'Mina' WHERE id = 1
+	</p>
 	
 	- Fungsi destroy() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
+	<p> 
+		await memebr.destroy({
+			where: {
+				id: 1
+			}
+		})
+
+		let sql : DELETE FROM 'members' WHERE id = 1
+	</p>
+
+
 	- Read data
 		-	findAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki. Hasil perintah ini berupa array object dari data yang didapatkan.
+			<p> 
+				await member.findAll()
+
+				let sql : SELECT * FROM 'members'
+
+				and 
+
+				await memeber.findAll({
+					where: {
+						gender: 'Male'
+					}
+				})
+
+				let sql : SELECT * FROM 'members' WHERE gender = 'Male'
+			</p>
+			
 		-	findByPk() digunakan untuk mendapatkan data berdasarkan nilai data primary key yang dikehendaki. Hasil perintah ini berupa object dari data yang didapatkan
 		-	findOne() digunakan untuk mendapatkan data berdasarkan parameter pencarian yang dikehendaki (penggunaan where clause). Hasil perintah ini berupa object
 		-	findAndCountAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki beserta jumlah data yang didapatkan. Hasil perintah ini
