@@ -16,14 +16,14 @@ module.exports = (sequelize, DataTypes) => { // exports : supaya dapat digunakan
     /* Membuat Relasi */
     static associate(models) { // Menggunakan params
       // define association here
-      this.belongsTo(models.admin)
-      this.belongsTo(models.member)
+      this.belongsTo(models.admin) // Relasi tabel borrow ke admin
+      this.belongsTo(models.member)  // Relasi tabel borrow ke member
       this.hasMany(models.details_of_borrow, {
-        foreignKey: `borrowID`, as: "details_of_borrow"
+        foreignKey: `borrowID`, as: "details_of_borrow"  // Relasi tabel “borrows” dan tabel “details_of_borrows” dengan key “id” dari tabel “borrows” dan key “borrowID” dari tabel “details_of_borrows”. 
       })
     }
   }
-  /* Melakuikan inisialisai terhadap tabel apembelian */
+  /* Melakuikan inisialisai terhadap tabel pembelian */
   borrow.init({
     memberID: DataTypes.INTEGER,
     adminID: DataTypes.INTEGER,

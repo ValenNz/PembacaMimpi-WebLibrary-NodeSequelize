@@ -62,7 +62,19 @@
 11. Buatlah CRUD di folder controller
 	- Lakukan inisialisasi di folder models : const nama_tabel = require(tempat folder model).nama_tabel
 	- Fungsi create() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
+
+		await member.create({
+			name: "dummy",
+			gender: "Male",
+			contact: "096357"
+			address: "Mekkah"
+		})
+
+		LIKE let sql = INSERT INTO 'table_name' (field1,field2) VALUE ('value1', 'value2')
+		
 	- Fungsi update() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function.
+
+	
 	- Fungsi destroy() merupakan sebuah promise yang harus di-handle menggunakan then() dan catch() atau dapat menggunakan await yang harus di dalam scope async function. 
 	- Read data
 		-	findAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki. Hasil perintah ini berupa array object dari data yang didapatkan.

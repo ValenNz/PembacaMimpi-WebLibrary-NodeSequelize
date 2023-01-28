@@ -16,6 +16,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      /* Menghubungkan tabel member */
       memberID: {
         type: Sequelize.INTEGER,
         allowNull:false,  // kolom memberID tidak boleh dikosongkan datanya
@@ -25,6 +26,7 @@ module.exports = {
           key: "id"
         },
       },
+      /* Menghubungkan tabel admin */
       adminID: {
         type: Sequelize.INTEGER,
         allowNull: false, // kolom memberID tidak boleh dikosongkan datanya

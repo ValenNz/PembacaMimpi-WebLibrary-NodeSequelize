@@ -16,6 +16,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      /* Menghubungkan relasi ke tabel borrow */
       borrowID: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -24,6 +25,7 @@ module.exports = {
           key: "id"
         }
       },
+      /* Menghubungkan ketabel book */
       bookID: {
         type: Sequelize.INTEGER,
         allowNull: false,

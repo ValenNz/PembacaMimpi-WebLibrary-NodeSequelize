@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => { // exports : supaya dapat digunakan
      /* Membuat Relasi */
     static associate(models) { // Menggunakan params
       // define association here
-      this.belongsTo(models.borrow)
-      this.belongsTo(models.book)
+      this.belongsTo(models.borrow) // Relasi tabel borrow ke borrow
+      this.belongsTo(models.book) // Relasi tabel borrow ke bbok
     }
   }
   /* Melakuikan inisialisai terhadap tabel detail pembelian */

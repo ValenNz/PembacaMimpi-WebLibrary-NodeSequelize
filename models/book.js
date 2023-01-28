@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => { // exports : supaya dapat digunakan
     static associate(models) { // Menggunakan params
       // define association here
       this.hasMany(models.details_of_borrow, {
-        foreignKey: `bookID`, as: `details_of_borrow`
+        foreignKey: `bookID`, as: `details_of_borrow` // •	Relasi tabel “books” dan tabel “details_of_borrows” dengan key “id” dari tabel “books” dan key “bookID” dari tabel “details_of_borrows”
       })
     }
   }
