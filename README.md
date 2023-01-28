@@ -16,7 +16,7 @@
 
 1. make folder
 
-2. Inisialisasi package.json	: npm init -y	
+2. Inisialisasi package.json	:  <p> npm init -y	</p>
 
 3. menginstal nodemon (menjalankan server otomatis)	: npm installl nodemon 
 
