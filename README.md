@@ -194,3 +194,9 @@
 12. Buatlah router untuk menjalankan function CRUD
 
 13. Buatlah server untuk menjalankan 
+
+14. Intstall library muler : npm install multer
+
+15. Buat file untuk process upload
+
+16. Connect all file to uppload
