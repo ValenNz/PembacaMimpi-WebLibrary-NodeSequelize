@@ -1,31 +1,26 @@
-/** load library express */
+/* File untuk membaut router (bndpoint) */
+/* Import library express */
 const express = require(`express`)
 
-/** initiate object that instance of express */
+/* Inisialisasi server express */
 const app = express()
 
-/** allow to read 'request' with json type */
+/* Membaca request dengan JSON */
 app.use(express.json())
 
-/** load borrow's controller */
+/* import Controller (function) */1
 const borrowController = require(`../controllers/borrow.controller`)
 
-/** create route to add new borrowing book */
-app.post("/", borrowController.addBorrowing)
+/* Endpoint Book */
+/* server.method("path",[middleware], namaConstroller.namaMethod) */
 
-/** create route to update borrowed book based on ID */
-app.put("/:id", borrowController.updateBorrowing)
+app.post("/", borrowController.addBorrowing)            // post : Menambahkan data
+app.get("/", borrowController.getBorrow)                // get : Mendapatkan data   
+app.get("/:id", borrowController.findBorrow)            // get : Mendapatkan detail data
+app.put("/:id", borrowController.updateBorrowing)       // put : Menangkap data dengan path id
+app.delete("/:id", borrowController.deleteBorrowing)    // delete : Menghapus data dengan path id
+app.get("/return/:id", borrowController.returnBook)     // get : Mengembalikan dengan path id
 
-/** create toute to delete borrowed book based on ID */
-app.delete("/:id", borrowController.deleteBorrowing)
-
-/** create route to return book */
-app.get("/return/:id", borrowController.returnBook)
-
-/** create route to get all borrowed book */
-app.get("/", borrowController.getBorrow)
-
-app.get("/:id", borrowController.findBorrow)
 
 /** export app in order to load in another file */
 module.exports = app

@@ -13,9 +13,6 @@ const adminController = require(`../controllers/admin.controller`)
 /** load authorization function from controllers */
 const { authorize } = require(`../controllers/auth.controller`)
 
-
-
-
 /* Endpoint Admin */
 /* server.method("path", namaConstroller.namaMethod) */
 app.post("/",[authorize], adminController.addAdmin)           // post : Menambahkan data

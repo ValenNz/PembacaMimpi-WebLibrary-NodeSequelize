@@ -200,3 +200,5 @@
 15. Buat file untuk process upload
 
 16. Connect all file to uppload
+
+17. Buatlah middleware untuk auth dan authorizen

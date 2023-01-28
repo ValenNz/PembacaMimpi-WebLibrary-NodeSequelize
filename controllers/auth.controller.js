@@ -1,50 +1,49 @@
-/** load express library */
-const express = require(`express`)
-
-/** load md5 library */
-const md5 = require(`md5`)
-
-/** load library jsonwebtoken */
-const jwt = require(`jsonwebtoken`)
-
-/** load model of admin */
+/* Imprt library express */
+const express = require(`express`) // import express
+const md5 = require(`md5`)      // Import md5 untuk password
+const jwt = require(`jsonwebtoken`) // import jwt untuk authenticatiob
+ 
+/* Import Model */
 const adminModel = require(`../models/index`).admin
 
-/** create function to handle authenticating process */
-const authenticate = async (request, response) => {
+/* Functrion authenticating process */
+const authenticate = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+
+    /* Mendefinisikan data dari request (menangkap) */
     let dataLogin = {
         username: request.body.username,
         password: md5(request.body.password)
     }
 
-    /** check data username and password on admin's table */
+    /* cek data username dan password di meja admin */
     let dataAdmin = await adminModel.findOne({ where: dataLogin })
 
-    /** if data admin exists */
+    /* jika admin data ada */
     if(dataAdmin){
-        /** set payload for generate token.
-         * payload is must be string.
-         * dataAdmin is object, so we must convert to string.
-         */
-        let payload = JSON.stringify(dataAdmin)
-        
-        /** define secret key as signature */
-        let secret = `mokleters`
 
-       /** generate token */
+        /* atur payload untuk menghasilkan token */
+        let payload = JSON.stringify(dataAdmin) // stringfy() : payload harus berupa string. dataAdmin adalah objek, jadi kita harus mengubahnya menjadi string.
+        
+        let secret = `mokleters` // mendefinisikan kunci rahasia sebagai tanda tangan 
+
+       /* Buat Token */
         let token = jwt.sign(payload, secret)
 
-        /** define response */
+        /* Mengirimklan response */
         return response.json({
             success: true,
             logged: true,
-            message: `Authentication Successed`,
+            message: `Berhasil Authentication`,
             token: token,
             data: dataAdmin
         })
     }
 
-    /** if data admin is not exists */
+    /* Jika data admin tidak ada */
     return response.json({
         success: false, 
         logged: false,
@@ -52,32 +51,30 @@ const authenticate = async (request, response) => {
     })
 }
 
-/** create function authroize */
+/*Function authroize (perizinan) */
 const authorize = (request, response, next) => {
-    /** get "Authorization" value from request's header */
+    /* Dapatkan nilai "Otorisasi" dari header permintaan */
     let headers = request.headers.authorization
 
-    /** when using Bearer Token for authorization, 
-     * we have to split `headers` to get token key.
-     * valus of headers = `Bearers tokenKey`
-     */
 
-    let tokenKey = headers && headers.split(" ")[1]
+    /* Mendapatkan token */
+    let tokenKey = headers && headers.split(" ")[1] // Ketika menggunakan token untuk auth kita membagi 'header' untuk mendapatkan token dengan 'bearers tokenKey'
 
-    /** check nullable token */
+    /* Check token */
     if (tokenKey == null) {
+        /* Mengembalikan response */
         return response.json({
             success: false,
             message: `Unauthorized User`
         })
     }
 
-    /** define secret Key (equals with secret key in authentication function) */
-    let secret = `mokleters`
+    /* Menetukan kunci otentikasi */
+    let secret = `mokleters` // tentukan Kunci rahasia (sama dengan kunci rahasia dalam fungsi otentikasi)
 
-    /** verify token using jwt */
+    /* Verifikasi token dengan ktw */
     jwt.verify(tokenKey, secret, (error, user) => {
-        /** check if there is error */
+        /* check jika token error*/
         if (error) {
             return response.json({
                 success: false,
@@ -86,10 +83,9 @@ const authorize = (request, response, next) => {
         }
     })
 
-    /** if there is no problem, go on to controller */
+    /* Jika tidak ada error lanjutkan ke controller */
     next()
 }
 
-/** export function to another file */
-module.exports = { authenticate, authorize }
+module.exports = { authenticate, authorize } // exports modulde dupaya digunakan di file lain
 

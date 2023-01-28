@@ -15,9 +15,9 @@ const { midOne } = require(`../middlewares/simple-middleware`)
 
 
 /* Endpoint Book */
-/* server.method("path", namaConstroller.namaMethod) */
+/* server.method("path",[middleware], namaConstroller.namaMethod) */
 app.post("/",[midOne], bookController.addBook)           // post : Menambahkan data
-app.get("/",[midOne],  bookController.getAllBook)         // get : Mendapatkan data   
+app.get("/",[midOne],  bookController.getAllBook)        // get : Mendapatkan data   
 app.post("/find",[midOne], bookController.findBook)      // post : Menangkap detail dengan path find
 app.put("/:id",[midOne], bookController.updateBook)      // put : Menangkap data dengan path id
 app.delete("/:id",[midOne], bookController.deleteBook)   // delete : Menghapus data dengan path id

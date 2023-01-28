@@ -1,11 +1,8 @@
-/** create first simple middleware  */
+/* Membuat middleware  */
 const midOne = async (request, response, next) => {
-    console.log(`Run Middleware One`)
-    next()
-    /** next() function used to continue to the controller process */
+    console.log(`Run Middleware One`) // Menjalankan middleware
+    next() // Memproses fungsi selanjutnya (dicontroller)
 }
 
-/** export function to another file */
-module.exports = {
-    midOne
-}
+
+module.exports = {midOne} // Melakukan exports dupaya dapat digunakan di file lain

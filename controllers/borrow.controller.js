@@ -1,15 +1,18 @@
-/** load model for `borrow` table */
-const borrowModel = require(`../models/index`).borrow
+/* Import Model */
+const borrowModel = require(`../models/index`).borrow                       // Model borrow
+const detailsOfBorrowModel = require(`../models/index`).details_of_borrow   // Model details of borrow
 
-/** load model for `details_of_borrow` table */
-const detailsOfBorrowModel = require(`../models/index`).details_of_borrow
-
-/** load Operator from  Sequelize  */
+/* Load Operation Sequelize */
 const Op = require(`sequelize`).Op
 
-/** create function for add book borrowing */
-exports.addBorrowing = async (request, response) => {
-    /** prepare data for borrow's table */
+/* Function CREATE */
+exports.addBorrowing = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+
+    /* Mendefinisikan data dari request (menangkap) */
     let newData = {
         memberID: request.body.memberID,
         adminID: request.body.adminID,
@@ -18,31 +21,31 @@ exports.addBorrowing = async (request, response) => {
         status: request.body.status
     }
 
-    /** execute for inserting to borrow's table */
+    /** Eksekusi create data */
     borrowModel.create(newData)
+        /* Jika berhasil  */
         .then(result => {
-            /** get the latest id of book borrowing */
+            /* Tangkap id berdasarkan req dari pram yang dikirim */
             let borrowID = result.id
 
-            /** store details of book borrowing from request
-             * (type: array object)
-             */
-
+            /* Meniyimpan detail peminjaman buku dari permintaan berbentuk array  */
             let detailsOfBorrow = request.body.details_of_borrow
 
-            /** insert borrowID to each item of detailsOfBorrow */
-            for (let i = 0; i < detailsOfBorrow.length; i++) {
-                detailsOfBorrow[i].borrowID = borrowID
+            /* Menambahkan setiap borrowID ke dalam detailOfBorrow dengan perulangan*/
+            for (let i = 0; i < detailsOfBorrow.length; i++) { // i kurang dari details of borrow
+                detailsOfBorrow[i].borrowID = borrowID // setiap details of borrow = borrowID
             }
 
-            /** insert all data of detailsOfBorrow */
-            detailsOfBorrowModel.bulkCreate(detailsOfBorrow)
+            /* Memasukan semua data detail of borrow */
+            detailsOfBorrowModel.bulkCreate(detailsOfBorrow) // Metode bulkCreate() memungkinkan Anda untuk memasukkan beberapa catatan ke tabel database Anda dengan satu panggilan fungsi.
+                /* Jika berhasil  */
                 .then(result => {
                     return response.json({
                         success: true,
-                        message: `New Book Borrowed has been inserted`
+                        message: `Peminjaman buku telah ditambahkan`
                     })
                 })
+                /* Jika error tampilkan pesan error */
                 .catch(error => {
                     return response.json({
                         success: false,
@@ -51,6 +54,7 @@ exports.addBorrowing = async (request, response) => {
                 })
 
         })
+        /* Jika tidak dapat melaku kan creat etampilkan pesan error */
         .catch(error => {
             return response.json({
                 success: false,
@@ -59,9 +63,14 @@ exports.addBorrowing = async (request, response) => {
         })
 }
 
-/** create function for update book borrowing */
-exports.updateBorrowing = async (request, response) => {
-    /** prepare data for borrow's table */
+/* Function UPDATE */
+exports.updateBorrowing = async (request, response) => {// exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+
+    /* Mendefinisikan data dari request (menangkap) */
     let newData = {
         memberID: request.body.memberID,
         adminID: request.body.adminID,
@@ -70,37 +79,37 @@ exports.updateBorrowing = async (request, response) => {
         status: request.body.status
     }
 
-    /** prepare parameter Borrow ID */
+    /* Menangkap id yang dikirim dari parameter berdasarkan request */
     let borrowID = request.params.id
 
-    /** execute for inserting to borrow's table */
-    borrowModel.update(newData, { where: { id: borrowID } })
+    /* Eksekusi untuk melakukan update */
+    borrowModel.update(newData, { where: { id: borrowID } }) // menangka data berdasarkan id yang ditangkap
+        /* Jika berhasil */
         .then(async result => {
 
-            /** delete all detailsOfBorrow based on borrowID */
+            /* hapus semua detail OfBorrow berdasarkan borrowID */
             await detailsOfBorrowModel.destroy(
-                { where: { borrowID: borrowID } }
+                { where: { borrowID: borrowID } } // berdasarkan id
             )
 
-            /** store details of book borrowing from request
-             * (type: array object)
-             */
-
+            /* menyimpan detail peminjaman buku dari permintaan */
             let detailsOfBorrow = request.body.details_of_borrow
 
-            /** insert borrowID to each item of detailsOfBorrow */
+            /* sisipkan borrowID ke setiap item detailOfBorrow */
             for (let i = 0; i < detailsOfBorrow.length; i++) {
-                detailsOfBorrow[i].borrowID = borrowID
+                detailsOfBorrow[i].borrowID = borrowID 
             }
 
-            /** re-insert all data of detailsOfBorrow */
-            detailsOfBorrowModel.bulkCreate(detailsOfBorrow)
+            /* Memasukan kembali semua data detail of borrow */
+            detailsOfBorrowModel.bulkCreate(detailsOfBorrow) // Metode bulkCreate() memungkinkan Anda untuk memasukkan beberapa catatan ke tabel database Anda dengan satu panggilan fungsi.
+                /* Jika berhasil */
                 .then(result => {
                     return response.json({
                         success: true,
                         message: `Book Borrowed has been updated`
                     })
                 })
+                /* Jiga gagal memasukan update mak atampilkan error */
                 .catch(error => {
                     return response.json({
                         success: false,
@@ -109,6 +118,7 @@ exports.updateBorrowing = async (request, response) => {
                 })
 
         })
+        /* Jika gagaglk menangkap data untuk update tampilkan error */
         .catch(error => {
             return response.json({
                 success: false,
@@ -117,11 +127,18 @@ exports.updateBorrowing = async (request, response) => {
         })
 }
 
-/** create function for get all borrowing data */
-exports.getBorrow = async (request, response) => {
+/* Function READ */
+exports.getBorrow = async (request, response) => {  // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    /* Definiskan keyword */
+
+    /* Membuat definisi untuk memanggil sesuasi kondisi */
     let data = await borrowModel.findAll(
         {
-            include: [
+            include: [ // masukan member, admin
                 `member`, `admin`,
                 {
                     model: detailsOfBorrowModel,
@@ -132,13 +149,15 @@ exports.getBorrow = async (request, response) => {
         }
     )
 
+    /* Kembalikan respoonse */
     return response.json({
         success: true,
         data: data,
-        message: `All borrowing book have been loaded`
+        message: `Semua data peminjaman telah ditampilkan`
     })
 }
 
+/* Function Detail */
 exports.findBorrow = async (request, response) => { // exports arrow fn
     /*
         req  : var yang berisi data request
@@ -148,7 +167,7 @@ exports.findBorrow = async (request, response) => { // exports arrow fn
 
     /* Membuat definisi untuk memanggil sesuasi kondisi */
     let members = await borrowModel.findAll({ // Temukan semua
-        where: {  
+        where: {  // ketika memberID = id di params
             memberID : request.params.id
            }
     })
@@ -156,28 +175,37 @@ exports.findBorrow = async (request, response) => { // exports arrow fn
     return response.json({
         success: true,
         data: members,  // Tampilkan data member
-        message: `All Members have been loaded`
+        message: `Semua data pembelian berdasarkan member telah ditampilkan`
     })
 }
 
-/** create function for delete book borrowing's data */
-exports.deleteBorrowing = async (request, response) => {
-    /** prepare borrowID that as paramter to delete */
+/* Function Delete */
+exports.deleteBorrowing = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    /* Definiskan keyword */
+
+    /* Menangkap id berdasarkan id params */
     let borrowID = request.params.id
 
-    /** delete detailsOfBorrow using model */
+    /* delet detail of borroew menggubakan model */
     detailsOfBorrowModel.destroy(
-        { where: { borrowID: borrowID } }
+        { where: { borrowID: borrowID } } // Mengahopus berdasarkan id
     )
+        /* Jika berhasil */
         .then(result => {
-            /** delete borrow's data using model */
+            /* Menghaups detail of borrrow dengan model */
             borrowModel.destroy({ where: { id: borrowID } })
+                /* Jika berhasil  */
                 .then(result => {
                     return response.json({
                         success: true,
-                        message: `Borrowing Book's has deleted`
+                        message: `Peminjmana buku telah dihapus `
                     })
                 })
+                /* Jika gagal tampilkan error */
                 .catch(error => {
                     return response.json({
                         success: false,
@@ -185,6 +213,7 @@ exports.deleteBorrowing = async (request, response) => {
                     })
                 })
         })
+        /* Jika gagal menangklap id tampilkan error */
         .catch(error => {
             return response.json({
                 success: false,
@@ -193,16 +222,22 @@ exports.deleteBorrowing = async (request, response) => {
         })
 }
 
-/** create function for return borrowed book */
-exports.returnBook = async (request, response) => {
-    /** prepare borrowID that will be return */
+/* Fuinct5ion Return Book */
+exports.returnBook = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    /* Definiskan keyword */
+
+    /* Menangkap id berdasarkan id params */
     let borrowID = request.params.id
 
-    /** prepare current time for return's time */
+    /* Mendefinisikan data dari request (menangkap) */
     let today = new Date()
     let currentDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 
-    /** update status and date_of_return from borrow's data */
+    /* perbarui status dan tanggal_pengembalian dari data peminjam */
     borrowModel.update(
         {
             date_of_return: currentDate,
@@ -212,12 +247,14 @@ exports.returnBook = async (request, response) => {
             where: { id: borrowID }
         }
     )
+        /* Jika berhasil */
         .then(result => {
             return response.json({
                 success: true,
-                message: `Book has been returned`
+                message: `Buku telah dikembalikan`
             })
         })
+        /* Jika gagal tampilkan error */
         .catch(error => {
             return response.json({
                 success: false,

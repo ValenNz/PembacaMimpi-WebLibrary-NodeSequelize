@@ -1,17 +1,17 @@
-/** load library express */
+/* File untuk membaut router (bndpoint) */
+/* Import library express */
 const express = require(`express`)
 
-/** initiate object that instance of express */
+/* Inisialisasi server express */
 const app = express()
 
-/** allow to read 'request' with json type */
+/* Membaca request dengan JSON */
 app.use(express.json())
 
-/** load function authentcation from auth's controller */
+/* load authorization function from controllers */
 const {authenticate} = require(`../controllers/auth.controller`)
 
-/** create route for authentication */
+/* Membuat router authentication */
 app.post(`/`, authenticate)
 
-/** export app in order to load in another file */
-module.exports = app
+module.exports = app // melakukan export file supaya dapat di acc di file lain
