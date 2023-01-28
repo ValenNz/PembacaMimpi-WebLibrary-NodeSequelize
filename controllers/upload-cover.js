@@ -1,43 +1,48 @@
-/** load library 'multer' and 'path' */
-const multer = require(`multer`)
-const path = require(`path`)
+/* Import library 'multer' and 'path' */
+const multer = require(`multer`) // Multer adalah middleware node.js untuk menangani form data , yang biasanya digunakan untuk mengunggah file.
+const path = require(`path`)    // Tempat menyimpan foto
 
-/** storage configuration */
+/* Configurasi penyimpanan */
 const storage = multer.diskStorage({
-    /** define storage folder */
-    destination: (req, file, cb) => {
-        cb(null, `./images/cover`)
+    /* Definisikan tempat penyimpanan */
+    destination: (req, file, cb) => { // request, file and callback
+        cb(null, `./images/cover`)  //  ndak paham
     },
 
-    /** define filename for upload file */
-    filename: (req, file, cb) => {
-        cb(null, `cover-${Date.now()}${path.extname(file.originalname)}`)
+    /* Deinisi filename untuk upload foto */
+    filename: (req, file, cb) => { // request, file and callback
+        cb(null, `cover-${Date.now()}${path.extname(file.originalname)}`)  // ndak paham
     }
 })
 
+/* Function Upload  with multer */
 const upload = multer({
-    /** storage configuration */
+    /* konfigurasi penyimpanan */
     storage: storage,
-    /** filter uploaded file */
+    /* Filter upload foto */
     fileFilter: (req, file, cb) => {
-        /** filter type of file */
-        const acceptedType = [`image/jpg`, `image/jpeg`, `image/png`]
+        /* Filter type upload foto  */
+        const acceptedType = [`image/jpg`, `image/jpeg`, `image/png`] // Acc file foto forman png, jpeg, jpg
+
+        /* Jika type tidak sesuai */
         if (!acceptedType.includes(file.mimetype)) {
-            cb(null, false) /** refuse upload */
-            return cb(`Invalid file type (${file.mimetype})`)
+            cb(null, false) /* Kembalikan upload jadi error */
+            return cb(`Invalid file type (${file.mimetype})`) // tamopilkan error
 
         }
 
-        /** filter size of file */
-        const fileSize = req.headers[`content-length`]
-        const maxSize = (1 * 1024 * 1024) /** max: 1MB */
+        /* Filter ukuran dari foto */
+        const fileSize = req.headers[`content-length`] // filter panjang / besar file
+        const maxSize = (1 * 1024 * 1024) // max ukuran 1 mb
+
+        /* Jika ukuran lebih dari max ukuran */
         if(fileSize > maxSize){
-            cb(null, false) /** refuse upload */
-            return cb(`File size is too large`)
+            cb(null, false) /* Kembalikan upload jadi error */
+            return cb(`Ukuran foto maksimal 1 mb`) // tampilkan pesan 
         }
 
         cb(null, true) /** accept upload */
     }
 })
 
-module.exports = upload
+module.exports = upload // export file supaya dapat digunakan di file lain

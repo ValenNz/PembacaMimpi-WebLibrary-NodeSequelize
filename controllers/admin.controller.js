@@ -95,6 +95,9 @@ exports.updateAdmin = (req, res) => {  // exports arrow fn
         res  : var yang berisi data response dari end-point 
     */
     
+    /* Mendefinisikan data berdasarkan id yang dimasukan */
+    let idAdmin = req.params.id
+
     /* Mendefinisikan data dari request (menangkap) */
     let dataAdmin = {
         name: req.body.name,
@@ -103,9 +106,6 @@ exports.updateAdmin = (req, res) => {  // exports arrow fn
         username: req.body.username,
         password: req.body.password
     }
-
-    /* Mendefinisikan data berdasarkan id yang dimasukan */
-    let idAdmin = req.params.id
 
     /* Melakukan update data berdasarkan Id */
     adminModel.update(dataAdmin, { where: { id: idAdmin } }) // update data ketika id yang ditangkap = idMember

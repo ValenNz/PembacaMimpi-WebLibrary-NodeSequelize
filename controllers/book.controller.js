@@ -21,15 +21,16 @@ exports.addBook = (request, response) => { // exports arrow fn
         res  : var yang berisi data response dari end-point 
     */
 
+    /* Upload data  */
     upload(request, response, async error => {
-        /** check if there are errorwhen upload */
+        /* Check jika terjadi error tampilkan pesan */
         if (error) {
             return response.json({ message: error })
         }
 
-        /** check if file is empty */
+        /* Check jika tidak upload foto tampilkan pesan 'Tidak ada foto buku yang dihapus */
         if (!request.file) {
-            return response.json({ message: `Nothing to Upload` })
+            return response.json({ message: `Tidak ada foto buku yang dihapus` })
         }
 
     /* Mendefinisikan data dari request (menangkap) */
@@ -43,18 +44,18 @@ exports.addBook = (request, response) => { // exports arrow fn
             cover: request.file.filename
         }
 
-        /** execute inserting data to book's table */
+        /* Ekseskusi tambah data  */
         bookModel.create(newBook)
+            /* Jika berhasil tampilkan pesan  */
             .then(result => {
-                /** if insert's process success */
                 return response.json({
                     success: true,
                     data: result,
-                    message: `New book has been inserted`
+                    message: `Buku baru telah ditambahkan`
                 })
             })
+            /* Jika error tampilkan pesan error */
             .catch(error => {
-                /** if insert's process failed */
                 return response.json({
                     success: false,
                     message: error.message
@@ -65,10 +66,16 @@ exports.addBook = (request, response) => { // exports arrow fn
 
 }
 
-/** create function to read all data */
+/* Function READ */
 exports.getAllBook = async (request, response) => {
+     /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+     */
     /** call findAll() to get all data */
-    let books = await bookModel.findAll()
+    let books = await bookModel.findAll() // use findAll() : Memangil semua data
+
+    /* Mengembalikan response */
     return response.json({
         success: true,
         data: books,
@@ -76,13 +83,16 @@ exports.getAllBook = async (request, response) => {
     })
 }
 
-/** create function for filter */
+/* Funtion Detail  */
 exports.findBook = async (request, response) => {
-    /** define keyword to find data */
+     /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+     */
+    /** call findAll() to get all data */
     let keyword = request.body.keyword
 
-    /** call findAll() within where clause and operation 
-     * to find data based on keyword  */
+    /* Mencari buku berdasarkan salah satu data yang dimasukan */
     let books = await bookModel.findAll({
         where: {
             [Op.or]: [
@@ -94,6 +104,8 @@ exports.findBook = async (request, response) => {
             ]
         }
     })
+
+    /* Mengembalikan response */
     return response.json({
         success: true,
         data: books,
@@ -101,19 +113,24 @@ exports.findBook = async (request, response) => {
     })
 }
 
-/** create function to update book */
-exports.updateBook = async (request, response) => {
-    /** run upload function */
+/* Function UPDATE */
+exports.updateBook = async (request, response) => {  // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+    
+    /* Upload data */
     upload(request, response, async error => {
-        /** check if there are error when upload */
+        /* Check jika terjadi error tampilkan pesan */
         if (error) {
             return response.json({ message: error })
         }
 
-        /** store selected book ID that will update  */
+        /* Mendefinisikan data berdasarkan id yang dimasukan */
         let id = request.params.id
 
-        /** prepare book's data that will update */
+        /* Mendefinisikan data dari request (menangkap) */
         let book = {
             isbn: request.body.isbn,
             title: request.body.title,
@@ -123,42 +140,40 @@ exports.updateBook = async (request, response) => {
             stock: request.body.stock
         }
 
-        /** check if file is not empty,
-         * it means update data within reupload file
-         */
+        /* Check jika foto tidak kosong update data dengan foto reuppload  */
         if (request.file) {
-            /** get selected book's data */
+            /* Dapatkan buku berdasarkan id */
             const selectedBook = await bookModel.findOne({
                 where: { id: id }
             })
 
-            /** get old filename of cover file */
+            /* Dapatkan nama lama buku */
             const oldCoverBook = selectedBook.cover
 
-            /** prepare path of old cover to delete file */
-            const pathCover = path.join(__dirname, `../cover`, oldCoverBook)
+            /* Letak dari penyimpana foto */
+            const pathCover = path.join(__dirname, `../images/cover`, oldCoverBook)
 
-            /** check file existence */
+            /**check file existence */
             if (fs.existsSync(pathCover)) {
-                /** delete old cover file */
-                fs.unlink(pathCover, error => console.log(error))
+                /* Hapus foto lama */
+                fs.unlink(pathCover, error => console.log(error)) // unlink (hapus)
             }
 
-            /** add new cover filename to book object */
+            /* Tambahkan foto baru di buku */
             book.cover = request.file.filename    
         }
 
-        /** execute update data based on defined id book */
-        bookModel.update(book, { where: { id: id } })
+        /* Eksekusi update data buku */
+        bookModel.update(book, { where: { id: id } }) // Berdasarkan id 
+        /* Jika suskses update tampilkan pesan */
             .then(result => {
-                /** if update's process success */
                 return response.json({
                     success: true,
-                    message: `Data book has been updated`
+                    message: `Data buku telah di update`
                 })
             })
+            /* Jika error tampilkan pesan error */
             .catch(error => {
-                /** if update's process fail */
                 return response.json({
                 })
             })
@@ -166,38 +181,44 @@ exports.updateBook = async (request, response) => {
     
 }
 
-/** create function to delete book */
-exports.deleteBook = async (request, response) => {
-    /** store selected book's ID that will be delete */
+/* Funtion Delete */
+exports.deleteBook = async (request, response) => { // exports arrow fn
+    /*
+        req  : var yang berisi data request
+        res  : var yang berisi data response dari end-point 
+    */
+
+    /* Mendefinisikan data berdasarkan id yang dimasukan */
     const id = request.params.id
 
-    /** -- delete cover file -- */
-    /** get selected book's data */
+    /* -- delete cover file -- */
+    /* Mendapatkan data buku  */
     const book = await bookModel.findOne({ where: { id: id } })
-    /** get old filename of cover file */
+
+    /* Mendapatkan foto lama */
     const oldCoverBook = book.cover
 
-    /** prepare path of old cover to delete file */
-    const pathCover = path.join(__dirname, `../cover`, oldCoverBook)
+    /* Mendefinisikan peletakan dari penyimpanan foto */
+    const pathCover = path.join(__dirname, `../images/cover`, oldCoverBook)
 
     /** check file existence */
     if (fs.existsSync(pathCover)) {
-        /** delete old cover file */
+        /* Hapus foto lama */
        fs.unlink(pathCover, error => console.log(error))
     }
     /** -- end of delete cover file -- */
 
-    /** execute delete data based on defined id book */
+    /* Eksekusi Hapus berdasarkan id */
     bookModel.destroy({ where: { id: id } })
+        /* Jika berhasil tampilkan pesan data berhasil dihapus */
         .then(result => {
-            /** if update's process success */
             return response.json({
                 success: true,
-                message: `Data book has been deleted`
+                message: `Data buku berhasil dihapus`
             })
         })
+        /* Jika error tampilkan pesan error */
         .catch(error => {
-            /** if update's process fail */
             return response.json({
                 success: false,
                 message: error.message

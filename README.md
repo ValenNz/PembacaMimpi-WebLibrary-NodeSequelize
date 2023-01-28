@@ -1,6 +1,6 @@
 
 		                    Pengenalan Folder Pada Project
-*	Server.js merupakan file utama yang dieksekusi saat proyek aplikasi akan dijalankan.
+-	Server.js merupakan file utama yang dieksekusi saat proyek aplikasi akan dijalankan.
 -	Routes merupakan kumpulan jalur endpoint yang disediakan di dalam proyek.
 -	Controllers merupakan kumpulan logic atau proses mengolah request yang diterima dan memberikan response.
 -	Models merupakan kumpulan proses manipulasi data ke database meliputi create, read, update, dan delete.

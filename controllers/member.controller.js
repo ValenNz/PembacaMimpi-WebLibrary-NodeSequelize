@@ -107,46 +107,76 @@ exports.findMember = async (request, response) => { // exports arrow fn
 }
 
 /* Function UPDATE */
-exports.updateMember = (request, response) => { // exports arrow fn
+exports.updateMember = async (request, response) => { // exports arrow fn
     /*
         req  : var yang berisi data request
         res  : var yang berisi data response dari end-point 
     */
     
-    /* Mendefinisikan data dari request (menangkap) */
-    let dataMember = {
-        name: request.body.name,
-        address: request.body.address,
-        gender: request.body.gender,
-        contact: request.body.contact
-    }
+    upload(request, response, async error => {
+        /* Check jika terjadi error tampilkan pesan */
+        if (error) {
+            return response.json({ message: error })
+        }
 
-    /* Mendefinisikan data berdasarkan id yang dimasukan */
-    let idMember = request.params.id
+         /* Mendefinisikan data berdasarkan id yang dimasukan */
+         let idMember = request.params.id
 
-    /* Melakukan update data berdasarkan Id */
-    memberModel.update(dataMember, { where: { id: idMember } }) // update data ketika id yang ditangkap = idMember
+        /* Mendefinisikan data dari request (menangkap) */
+        let dataMember = {
+            name: request.body.name,
+            address: request.body.address,
+            gender: request.body.gender,
+            contact: request.body.contact
+        }
 
-        /* Jika berhasil */
-        .then(result => {
-            /* Tampilkan response success */
-            return response.json({
-                success: true,
-                message: `Data member has been updated`
+        /* Check jika foto tidak kosong update data dengan foto reuppload  */
+        if (request.file) {
+            /* Dapatkan buku berdasarkan id */
+            const selectedMember = await memberModel.findOne({
+                where: { id: id }
             })
-        })
-        /* Jika gagal */
-        .catch(error => {
-            /* Tanpilkan pesan error */
-            return response.json({
-                success: false,
-                message: error.message
+
+            /* Dapatkan nama lama buku */
+            const oldFotoMember = selectedMember.foto
+
+            /* Letak dari penyimpana foto */
+            const pathFoto = path.join(__dirname, `../images/foto`, oldFotoMember)
+
+            /**check file existence */
+            if (fs.existsSync(pathFoto)) {
+                /* Hapus foto lama */
+                fs.unlink(pathFoto, error => console.log(error)) // unlink (hapus)
+            }
+
+            /* Tambahkan foto baru di buku */
+            idMember.foto = request.file.filename    
+        }
+        
+        /* Melakukan update data berdasarkan Id */
+        memberModel.update(dataMember, { where: { id: idMember } }) // update data ketika id yang ditangkap = idMember
+
+            /* Jika berhasil */
+            .then(result => {
+                /* Tampilkan response success */
+                return response.json({
+                    success: true,
+                    message: `Data member has been updated`
+                })
             })
-        })
+            /* Jika gagal */
+            .catch(error => {
+                /* Tanpilkan pesan error */
+                return response.json({
+                    success: false,
+                    message: error.message
+                })
+            })
+    })
 }
 
 /** Function Delete  */
-exports.deleteMember = (request, response) => { // exports arrow fn
+exports.deleteMember = async  (request, response) => { // exports arrow fn
     /*
         req  : var yang berisi data request
         res  : var yang berisi data response dari end-point 
@@ -154,6 +184,23 @@ exports.deleteMember = (request, response) => { // exports arrow fn
     
     /* Mendefinisikan data berdasarkan id dari param (menangkap) */
     let idMember = request.params.id
+
+     /* -- delete foto file -- */
+    /* Mendapatkan data buku  */
+    const member = await memberModel.findOne({ where: { id: id } })
+
+    /* Mendapatkan foto lama */
+    const oldFotoMember = member.foto
+
+    /* Mendefinisikan peletakan dari penyimpanan foto */
+    const pathFoto = path.join(__dirname, `../images/foto`, oldFotoMember)
+
+    /** check file existence */
+    if (fs.existsSync(pathFoto)) {
+        /* Hapus foto lama */
+       fs.unlink(pathFoto, error => console.log(error))
+    }
+    /** -- end of delete foto file -- */
 
     /* Melakukan delete data berdasarkan id yang ditangkap */
     memberModel.destroy({ where: { id: idMember } }) // Hapus data ketika id = idMember
