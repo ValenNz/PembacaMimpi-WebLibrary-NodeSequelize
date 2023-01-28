@@ -114,8 +114,14 @@
 
 				let sql : SELECT * FROM 'members' WHERE gender = 'Male'
 			</p>
-			
+
 		-	findByPk() digunakan untuk mendapatkan data berdasarkan nilai data primary key yang dikehendaki. Hasil perintah ini berupa object dari data yang didapatkan
+			<p>
+				await member.findPk(29)
+
+				let sql : SELECT * FROM 'members' WHERE id = 29
+			</p>
+
 		-	findOne() digunakan untuk mendapatkan data berdasarkan parameter pencarian yang dikehendaki (penggunaan where clause). Hasil perintah ini berupa object
 		-	findAndCountAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki beserta jumlah data yang didapatkan. Hasil perintah ini
 			berupa object yang berisi dua key yaitu key “count” bernilai jumlah data yang didapatkan dan key “rows” berisi array object data yang didapatkan.
