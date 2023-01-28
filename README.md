@@ -117,17 +117,79 @@
 
 		-	findByPk() digunakan untuk mendapatkan data berdasarkan nilai data primary key yang dikehendaki. Hasil perintah ini berupa object dari data yang didapatkan
 			<p>
-				
+				await member.findPk(29)
 
 				let sql : SELECT * FROM 'members' WHERE id = 29
-				await member.findPk(29)	
 			</p>
 
 		-	findOne() digunakan untuk mendapatkan data berdasarkan parameter pencarian yang dikehendaki (penggunaan where clause). Hasil perintah ini berupa object
+			<p>
+				await member.findOne({
+					where: {
+						address: 'Madinah'
+					}
+				})
+
+				let sql : SELECT * FROM 'members' WHERE address = 'Madinah'
+			</p>
+
 		-	findAndCountAll() digunakan untuk mendapatkan semua data dari tabel dan parameter pencarian yang dikehendaki beserta jumlah data yang didapatkan. Hasil perintah ini
 			berupa object yang berisi dua key yaitu key “count” bernilai jumlah data yang didapatkan dan key “rows” berisi array object data yang didapatkan.
+
 	- Filtering Data
 		-	Inisialisasi const op = require('sequelize').Op
+			<p>
+			/* Mendapatkan gender Male dan alamat Mina */
+				await member.findAll({
+					where: {
+						[Op.and]: [
+							{
+								gender: 'Male',
+								address: 'Mina'
+							}
+						]
+					}
+				})
+
+				let sqlc : SELECT * FOM 'members' WHERE gender = "Male" and address = "Mina"
+
+			/* Mendapatkan data tanggal 1 sampaai 3 */
+				await member.findAll({
+					where: {
+						createdAt: {
+							[Op.between]: ["2002-05-01","2022-05-30"]
+						}
+					}
+				})
+
+				let sql : SELECT * FROM 'members' WHERE createdAt BETWEEN "2022-05-01" AND "2022-05-30"
+
+			/* Mendapatkan data member yang masuk sebelum tanggal 30 */
+				await member.findAll({
+					where: {
+						createdAt: {
+							[Op.lt]: "2022-05-30"
+						}
+					}
+				})
+
+				let sql : SELECT * FROM 'members' WHERE createdAt < "2022-01-30" 
+
+			
+			/* Mendapatkasn data member yang mengandung kata "hai */
+				await member.findAll({
+					where: {
+						[Op.or]: {
+							{ name: { [Op.substring : "hai" }},
+							{ address: { [Op.substring]: "hai" }},
+							{ gender: { [Op.substring]: "hai" }},
+						}
+					}
+				})
+
+				let sql : SELECT * FROM 'members' WHERE name LIKE "%hai%" OR address LIKE "%hai%" OR gender LIKE "%hai%"
+			</p>
+
 
 12. Buatlah router untuk menjalankan function CRUD
 
