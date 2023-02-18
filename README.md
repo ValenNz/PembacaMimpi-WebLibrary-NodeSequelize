@@ -192,8 +192,19 @@
 
 
 12. Buatlah router untuk menjalankan function CRUD
+		const namaController = require(`../controllers/namaFile`)
+		app.method("/", namaController.namaFunction)         
 
 13. Buatlah server untuk menjalankan 
+		const namaRouter  = require('./routes/namaRoutes)
+		app.use('/endpoint', namaRouter)
+
+		app.listen(8000, () => {
+   			console.log(`Server of School's Library runs on 8000 ${8000}`)
+		})
+
+
+
 
 14. Intstall library muler : npm install multer
 
