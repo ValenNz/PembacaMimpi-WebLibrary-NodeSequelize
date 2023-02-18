@@ -219,14 +219,9 @@
 
 20. Install joi untuk proses validasi data : npm i joi
 
-21. Tambah syntak validasi pada router
-		let { validateMember } = require(`../middlewares/member-validation`)
-		app.method("/enpoint", [validateName],memberController.addMember)
+17. Buatlah middleware untuk auth dan authorizen
 
-22. Buat proses authentification
-		intall jwt : npm i -s jsonwebtoken
-		const auth = require(`./routes/auth.route`)
-		app.use(`/auth`, auth)
+![1](https://user-images.githubusercontent.com/92833376/219864384-7f936dcd-2dd5-4594-bb4d-89518b396474.png)
 
 23. Buat proses Authorizen
 		const {authorize} = require('../controller/auth.constroller')
