@@ -213,3 +213,5 @@
 16. Connect all file to uppload
 
 17. Buatlah middleware untuk auth dan authorizen
+
+![1](https://user-images.githubusercontent.com/92833376/219864384-7f936dcd-2dd5-4594-bb4d-89518b396474.png)
