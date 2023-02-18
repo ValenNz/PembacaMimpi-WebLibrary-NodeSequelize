@@ -202,16 +202,31 @@
 		app.listen(8000, () => {
    			console.log(`Server of School's Library runs on 8000 ${8000}`)
 		})
+14. inisialisasi md 5 untuk melakukan configurasi password (admin)
+		const md5 = require(`md5`) 
+		password : md5(req.body.password) 
 
+15. Intstall library multer digunakan untuk membaca data request bertipe file : npm install multer
+		inisiaialisasi Op, parh dan fs
 
+16. Buat file untuk process upload file
 
+17. Connect all file to uppload file
 
-14. Intstall library muler : npm install multer
+18. Buatlah folder middleware(authen, author) 
 
-15. Buat file untuk process upload
+19. Buat file memebr-validation
 
-16. Connect all file to uppload
+20. Install joi untuk proses validasi data : npm i joi
 
-17. Buatlah middleware untuk auth dan authorizen
+21. Tambah syntak validasi pada router
+		let { validateMember } = require(`../middlewares/member-validation`)
+		app.method("/enpoint", [validateName],memberController.addMember)
 
-![1](https://user-images.githubusercontent.com/92833376/219864384-7f936dcd-2dd5-4594-bb4d-89518b396474.png)
+22. Buat proses authentification
+		intall jwt : npm i -s jsonwebtoken
+		const auth = require(`./routes/auth.route`)
+		app.use(`/auth`, auth)
+
+23. Buat proses Authorizen
+		const {authorize} = require('../controller/auth.constroller')
